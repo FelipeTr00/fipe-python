@@ -53,7 +53,7 @@ Este é o back-end do projeto **FIPE-PYTHON**, implementado em Python com FastAP
 
 ## Configuração
 
-**Arquivo .env**
+**Arquivo server/.env**
 
     DB_URI=database/db.sqlite
     DEBUG=true
