@@ -1,6 +1,6 @@
 # FIPE API - Servidor
 
-Este é o back-end do projeto **FIPE-PYTHON**, implementado em Python com FastAPI. O servidor busca dados do site da [**FIPE**](https://veiculos.fipe.org.br/), utiliza cache (opcional) armazenado em um **banco de dados SQLite** e expõe endpoints para consulta de **tipos**, **marcas**, **modelos**, **anos** e **detalhes** de **carros**, **motos** e **caminhões**.
+Este é o back-end do projeto **FIPE-PYTHON**, implementado em Python com FastAPI. O servidor busca dados do site da [**FIPE - fipe.org.br**](https://veiculos.fipe.org.br/), utiliza cache (opcional) armazenado em um **banco de dados SQLite** e expõe endpoints para consulta de **tipos**, **marcas**, **modelos**, **anos** e **detalhes** de **carros**, **motos** e **caminhões**.
 
 ---
 
