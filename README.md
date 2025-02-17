@@ -1,259 +1,93 @@
 # FIPE API - Servidor
+## Autor: [Felipe Alves de Morais](https://github.com/FelipeTr00)
 
 Este é o back-end do projeto **FIPE-PYTHON**, implementado em Python com FastAPI. O servidor busca dados do site da [**FIPE - fipe.org.br**](https://veiculos.fipe.org.br/), utiliza cache (opcional) armazenado em um **banco de dados SQLite** e expõe endpoints para consulta de **tipos**, **marcas**, **modelos**, **anos** e **detalhes** de **carros**, **motos** e **caminhões**.
 
 ---
 
-## Índice
+## ÍNDICE
 
-1. [Recursos](#recursos)  
-2. [Pré-requisitos](#pré-requisitos)  
-3. [Instalação](#instalação)  
-4. [Configuração](#configuração)  
-5. [Servidor](#servidor)  
-6. [Notas e Considerações](#notas-e-considerações)
-
----
-
-## Recursos
-
-- **FastAPI** para criação de endpoints REST.  
-- **httpx** para requisições assíncronas à API FIPE.  
-- **python-dotenv** para gerenciamento de variáveis de ambiente.  
-- **SQLite** como banco de dados para cache.  
-- Suporte opcional a cache: ao habilitar, os dados obtidos da FIPE API são salvos localmente.
+1. [OBJETIVOS](#OBJETIVOS)  
+2. [APP](#APP)  
+3. [SERVER](#SERVER)  
+4. [LICENÇA](#LICENÇA)  
+5. [NOTAS E CONSIDERAÇÕES](#NOTAS-E-CONSIDERAÇÕES)
 
 ---
 
-## Pré-requisitos
+## OBJETIVOS
 
-- **Python 3.8 ou superior**  
-- **Pip**
+1. **Coletar Dados Atualizados**  
+   - Implementar um web crawler eficiente para extrair os preços de veículos diretamente da fonte oficial da Tabela FIPE.
+   - Automatizar o processo de atualização dos dados para garantir que sempre estejam atualizados.
 
----
+2. **Armazenamento Estruturado**  
+   - Armazenar os dados coletados em um formato estruturado, como JSON, CSV ou banco de dados SQL/NoSQL.
+   - Garantir integridade e consistência dos dados coletados.
 
-## Instalação
+3. **Facilidade de Consulta e Análise**  
+   - Criar uma API ou interface para facilitar o acesso e consulta aos dados coletados.
+   - Permitir filtragem e análise dos preços de veículos por categoria, modelo, ano e outros critérios relevantes.
 
-1. **Clone o repositório**:
-   ```bash
-   git clone https://github.com/FelipeTr00/fipe-python.git
-   cd fipe-python/server
-2. **Crie e ative um ambiente virtual:**
+4. **Automatização e Escalabilidade**  
+   - Desenvolver um sistema que possa rodar periodicamente e ser escalado conforme a necessidade.
+   - Implementar boas práticas de web scraping para evitar bloqueios e manter a eficiência do crawler.
 
-    **Windows**
-    ```
-    py -m venv venv
-    venv\Scripts\activate
-3. **Instale as dependências:**
-    ```
-    py -m pip install -r requirements.txt
+5. **Documentação e Manutenção**  
+   - Produzir uma documentação clara e objetiva sobre o funcionamento do web crawler e do sistema em geral.
+   - Definir estratégias para manutenção e evolução do projeto, garantindo sua continuidade e confiabilidade.
 
+O projeto **FIPE-Python** busca oferecer uma solução automatizada, confiável e eficiente para a coleta e análise de preços da Tabela FIPE, facilitando a obtenção de informações atualizadas sobre veículos no mercado brasileiro.
 
----
-
-## Configuração
-
-**Arquivo .env**
-
-    DB_URI=database/db.sqlite
-    DEBUG=true
-    CACHE_ENABLED=true
-    FIPE_TABLE=318
-    SERVER_PORT=8000
-- DB_URI: Caminho para o arquivo SQLite (relativo à raiz do servidor).
-- DEBUG: Ativa mensagens de depuração (true/false).
-- CACHE_ENABLED: Habilita (true) ou desabilita (false) o cache.
-- FIPE_TABLE: Código de referência da tabela FIPE (ex: 318 para fevereiro/2025).
-- SERVER_PORT: Porta em que o servidor será executado.
 
 ---
+## APP 
 
-## Servidor 
+### Em desenvolvimento...
 
-### Estrutura do Servidor
+## SERVER 
+
+### Estrutura do Servidor/API
     server/
-    ├── database/                # Arquivo SQLite (db.sqlite)
+    ├── database/                # Banco de Dados SQLite (db.sqlite)
     ├── migrations/              # Scripts de migração (schema.sql, etc.)
     ├── src/
-    │   ├── __init__.py          # Inicializador do pacote
-    │   ├── main.py              # Ponto de entrada da aplicação FastAPI
-    │   ├── routes.py            # Definição das rotas/endpoint
+    │   ├── __init__.py          # Inicializador do Python
+    │   ├── main.py              # Main FastAPI
+    │   ├── routes.py            # Rotas e endpoint
     │   ├── fipe.py              # Lógica de integração com a API FIPE e cache
-    │   └── db.py                # Módulo de conexão e operações com o banco SQLite
+    │   └── db.py                # Módulo de conexão e operações com o banco de dados
     ├── .env                     # Variáveis de ambiente
     ├── requirements.txt         # Dependências do Python
-    └── SERVER-README.md         # Este arquivo
+    └── README.md                # Este arquivo
 
 ### Run
-    py -m src.main
+    py -m server.src.main
+
+### Port
+    http://localhost:8000/v1
+
 
 ---
-### End Points
+### Endpoints
 
-- **Types:** GET: /v1/types
+| **Método** | **Endpoint** | **Descrição** |
+|------------|----------------------------------|------------------------------------------------------------|
+| `GET` | `/v1/types` | Retorna os tipos de veículos disponíveis. |
+| `GET` | `/v1/brands/{type}` | Retorna as marcas disponíveis para um tipo de veículo. |
+| `GET` | `/v1/models/{type}/{brand}` | Retorna os modelos de uma marca específica. |
+| `GET` | `/v1/years/{type}/{brand}/{model}` | Retorna os anos disponíveis para um modelo específico. |
+| `GET` | `/v1/details/{type}/{brand}/{model}/{year}` | Retorna os detalhes do veículo com base nos 4 parâmetros informados. |
+| `GET` | `/v1` | Extra, retorna a versão da API. |
+|
 
-   ```
-        // http://localhost:8000/v1/types
+* **Mais detalhes: [Documentação do Servidor](server/README.md)**
 
-    {
-      "success": true,
-      "data": [
-       {
-          "Value": 1,
-          "Label": "carros"
-        },
-        {
-          "Value": 2,
-          "Label": "motos"
-        },
-        {
-          "Value": 3,
-          "Label": "caminhões"
-        }]}
+## LICENÇA
 
-- **Brands:** GET: /v1/brands/1
-    ```
-    // http://localhost:8000/v1/brands/1
+### Distribuído sob a [Licença MIT](LICENCE.txt).
 
-    {
-  "success": true,
-  "updatedAt": "2025-02-01T00:00:00Z",
-  "type": 1,
-  "type_label": "carros",
-  "data": [
-    {
-      "Label": "Acura",
-      "Value": "1",
-      "codigoTabelaReferencia": 318,
-      "codigoTipoVeiculo": 1,
-      "updatedAt": "2025-02-16T20:17:52.970307Z"
-    },
-    {
-      "Label": "Agrale",
-      "Value": "2",
-      "codigoTabelaReferencia": 318,
-      "codigoTipoVeiculo": 1,
-      "updatedAt": "2025-02-16T20:17:52.970307Z"
-    },
-    {
-      "Label": "Alfa Romeo",
-      "Value": "3",
-      "codigoTabelaReferencia": 318,
-      "codigoTipoVeiculo": 1,
-      "updatedAt": "2025-02-16T20:17:52.970307Z"
-    }
-    
-    ...
-    
-    ]}
+## NOTAS E CONSIDERAÇÕES
 
-- **Models:** GET: /v1/models/1/20
-    ```
-    // http://localhost:8000/v1/models/1/20
+Este projeto foi baseado e inspirado no trabalho de [Olavo Mello](https://github.com/olavomello/fipe-api). Agradeço pelo projeto original que serviu como modelo para esta implementação.
 
-    {
-      "success": true,
-      "updatedAt": "2025-02-01T00:00:00Z",
-      "type": 1,
-      "type_label": "carros",
-      "brand": 20,
-      "data": [
-        {
-          "Label": "296 GTB (Hibrido)",
-          "Value": 10159,
-          "codigoTabelaReferencia": 318,
-          "codigoTipoVeiculo": 1,
-          "codigoMarca": 20,
-          "updatedAt": "2025-02-16T20:22:17.576745Z"
-        },
-        {
-          "Label": "296 GTS (Híbrido)",
-          "Value": 10624,
-          "codigoTabelaReferencia": 318,
-          "codigoTipoVeiculo": 1,
-          "codigoMarca": 20,
-          "updatedAt": "2025-02-16T20:22:17.576745Z"
-       }]}
-
-- **Years:** GET /v1/models/1/20/10995
-
-    ```
-    // http://localhost:8000/v1/years/1/20/10995
-
-    {
-    "success": true,
-    "updatedAt": "2025-02-01T00:00:00Z",
-    "type": 1,
-    "type_label": "carros",
-    "brand": 20,
-    "model": 10995,
-    "data": [
-        {
-          "Label": "32000 Gasolina",
-          "Value": "32000-1",
-          "codigoTabelaReferencia": 318,
-          "codigoTipoVeiculo": 1,
-          "codigoMarca": 20,
-          "codigoModelo": 10995,
-          "updatedAt": "2025-02-16T20:38:47.992667Z"
-        },
-        {
-          "Label": "2024 Gasolina",
-          "Value": "2024-1",
-          "codigoTabelaReferencia": 318,
-          "codigoTipoVeiculo": 1,
-          "codigoMarca": 20,
-          "codigoModelo": 10995,
-          "updatedAt": "2025-02-16T20:38:47.992667Z"
-        },
-        {
-          "Label": "2023 Gasolina",
-          "Value": "2023-1",
-          "codigoTabelaReferencia": 318,
-          "codigoTipoVeiculo": 1,
-          "codigoMarca": 20,
-          "codigoModelo": 10995,
-          "updatedAt": "2025-02-16T20:38:47.992667Z"
-        }]}  
-
-
-- **Details:** GET /v1/models/1/20/10995/2024
-    ```
-    // http://localhost:8000/v1/details/1/20/10995/2024
-
-    {
-      "success": true,
-      "updatedAt": "2025-02-01T00:00:00Z",
-      "type": 1,
-      "type_label": "carros",
-      "brand": 20,
-      "model": 10995,
-      "year": 2024,
-      "data": {
-        "Valor": "R$ 7.047.843,00",
-        "Marca": "Ferrari",
-        "Modelo": "PUROSANGUE 6.5 V12 725cv",
-        "AnoModelo": 2024,
-        "Combustivel": "Gasolina",
-        "CodigoFipe": "031056-5",
-        "MesReferencia": "fevereiro de 2025 ",
-        "Autenticacao": "5zn264d4k9j3yq",
-        "TipoVeiculo": 1,
-        "SiglaCombustivel": "G",
-        "DataConsulta": "domingo, 16 de fevereiro de 2025 17:40",
-        "codigoTabelaReferencia": 318,
-        "codigoTipoVeiculo": 1,
-        "codigoMarca": 20,
-        "codigoModelo": 10995,
-        "anoModelo": 2024,
-        "codigoTipoCombustivel": 1,
-        "tipoConsulta": "tradicional",
-        "updatedAt": "2025-02-16T20:40:55.355739Z"
-      }
-    } 
-
-
-
-
-## Notas e Considerações
-. . .
