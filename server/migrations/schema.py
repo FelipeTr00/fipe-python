@@ -2,10 +2,10 @@ import sqlite3
 
 def run_schema():
     # .SQL Path
-    schema_file = "migrations/schema.sql"
+    schema_file = "server/migrations/schema.sql"
 
     # DB Path
-    db_file = "database/db.sqlite"
+    db_file = "server/database/db.sqlite"
 
     # Schema.sql
     with open(schema_file, "r", encoding="utf-8") as f:
@@ -22,3 +22,4 @@ def run_schema():
 
 if __name__ == "__main__":
     run_schema()
+    

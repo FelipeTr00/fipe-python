@@ -13,7 +13,7 @@ load_dotenv()
 URL_BASE = "https://veiculos.fipe.org.br/api/veiculos/"
 DATA_TABLE = int(os.getenv("FIPE_TABLE", "318"))
 # dataTableUpdate como data fixa (no exemplo, 2025-02-01T00:00:00.000Z)
-DATA_TABLE_UPDATE = datetime(2025, 2, 1)
+DATA_TABLE_UPDATE = datetime.now()
 CACHE_ENABLED = os.getenv("CACHE_ENABLED", "false").lower() == "true"
 DEBUG = os.getenv("DEBUG", "false").lower() == "true"
 
