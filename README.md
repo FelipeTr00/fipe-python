@@ -49,17 +49,18 @@ O projeto **FIPE-Python** busca oferecer uma solução automatizada, confiável 
 
 ### Estrutura do Servidor/API
     server/
-    ├── database/                # Banco de Dados SQLite (db.sqlite)
+    ├── database/                # Arquivo SQLite (db.sqlite)
     ├── migrations/              # Scripts de migração (schema.sql, etc.)
+    ├── crawler/                 # Scripts de mineração dos dados (models.py, etc.)
     ├── src/
-    │   ├── __init__.py          # Inicializador do Python
-    │   ├── main.py              # Main FastAPI
-    │   ├── routes.py            # Rotas e endpoint
+    │   ├── __init__.py          # Inicializador do pacote
+    │   ├── main.py              # Ponto de entrada da aplicação FastAPI
+    │   ├── routes.py            # Definição das rotas/endpoint
     │   ├── fipe.py              # Lógica de integração com a API FIPE e cache
-    │   └── db.py                # Módulo de conexão e operações com o banco de dados
+    │   └── db.py                # Módulo de conexão e operações com o banco SQLite
     ├── .env                     # Variáveis de ambiente
     ├── requirements.txt         # Dependências do Python
-    └── README.md                # Este arquivo
+    └── SERVER-README.md         # Este arquivo
 
 ### Run
     py -m server.src.main

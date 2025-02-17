@@ -74,6 +74,7 @@ Este é o back-end do projeto **FIPE-PYTHON**, implementado em Python com FastAP
     server/
     ├── database/                # Arquivo SQLite (db.sqlite)
     ├── migrations/              # Scripts de migração (schema.sql, etc.)
+    ├── crawler/                 # Scripts de mineração dos dados (models.py, etc.)
     ├── src/
     │   ├── __init__.py          # Inicializador do pacote
     │   ├── main.py              # Ponto de entrada da aplicação FastAPI

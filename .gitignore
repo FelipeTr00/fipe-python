@@ -1,9 +1,8 @@
 node_modules/
-.env
-app/.env
-server/.env
-server/src/__pycache__
+.env/
+__pycache__/
 test/.env
 config.yaml
 main.js
 .idea
+.vscode
