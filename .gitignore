@@ -1,6 +1,8 @@
 node_modules/
-.env/
+.env
 **.env
+app/.env
+server/.env
 __pycache__/
 test/.env
 config.yaml
