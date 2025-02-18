@@ -176,7 +176,7 @@ Este é o back-end do projeto **FIPE-PYTHON**, implementado em Python com FastAP
           "updatedAt": "2025-02-16T20:22:17.576745Z"
        }]}
 
-- **Years:** GET /v1/models/1/20/10995
+- **Years:** GET /v1/years/1/20/10995
 
     ```
     // http://localhost:8000/v1/years/1/20/10995
@@ -218,7 +218,7 @@ Este é o back-end do projeto **FIPE-PYTHON**, implementado em Python com FastAP
         }]}  
 
 
-- **Details:** GET /v1/models/1/20/10995/2024
+- **Details:** GET /v1/details/1/20/10995/2024
     ```
     // http://localhost:8000/v1/details/1/20/10995/2024
 

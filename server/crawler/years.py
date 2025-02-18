@@ -9,6 +9,9 @@ load_dotenv()
 BASE_URL = "http://127.0.0.1:8000/v1"  # Ajuste conforme necessário
 DB_URI = os.getenv("DB_URI", "./server/database/db.sqlite")
 
+# Criar um semáforo para limitar requisições simultâneas
+semaphore = asyncio.Semaphore(5)  # Limita a 5 requisições ao mesmo tempo
+
 # Função para obter todos os modelos do banco de dados
 def get_models():
     conn = sqlite3.connect(DB_URI)
@@ -42,15 +45,19 @@ def save_years(years, type_id, brand_id, model_id):
 
 # Função assíncrona para buscar os anos de cada modelo
 async def fetch_years(client, model_id, brand_id, type_id):
-    url = f"{BASE_URL}/years/{type_id}/{brand_id}/{model_id}"
-    try:
-        response = await client.get(url)
-        data = response.json()
-        if data.get("success") and "data" in data:
-            save_years(data["data"], type_id, brand_id, model_id)
-            print(f"✔ {len(data['data'])} anos salvos para modelo {model_id} (marca {brand_id}, tipo {type_id})")
-    except Exception as e:
-        print(f"[Erro ao buscar anos para modelo {model_id}]: {e}")
+    async with semaphore:  # Limita a concorrência para evitar sobrecarga
+        url = f"{BASE_URL}/years/{type_id}/{brand_id}/{model_id}"
+        try:
+            response = await client.get(url, timeout=10)  # Timeout de 10s
+            data = response.json()
+            if data.get("success") and "data" in data:
+                save_years(data["data"], type_id, brand_id, model_id)
+                print(f"✔ {len(data['data'])} anos salvos para modelo {model_id} (marca {brand_id}, tipo {type_id})")
+                await asyncio.sleep(0.1)  # Pequeno delay para evitar bloqueios no SQLite
+        except httpx.RequestError as e:
+            print(f"[Erro de requisição ao buscar anos para modelo {model_id}]: {e}")
+        except Exception as e:
+            print(f"[Erro ao buscar anos para modelo {model_id}]: {e}")
 
 # Função principal para buscar e salvar os anos dos modelos
 async def main():
@@ -59,5 +66,10 @@ async def main():
         tasks = [fetch_years(client, model_id, brand_id, type_id) for model_id, brand_id, type_id in models]
         await asyncio.gather(*tasks)
 
+# Resolver problemas de loop assíncrono
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except RuntimeError:
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(main())
