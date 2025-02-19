@@ -1,7 +1,8 @@
 from fastapi import APIRouter
 from . import fipe as fipe_controller
+from server.config import config
 
-VERSION = "v1"
+VERSION = config.get("VERSION", "api")
 
 router = APIRouter()
 
@@ -35,4 +36,6 @@ async def details_endpoint(
 # Rota adicional
 @router.get(f"/{VERSION}")
 def get_version():
-    return {"title": "FIPE-Python", "author": "Felipe Alves de Morais", "version": "v.1 - 20250216"}
+    return {"title": "FIPE-Python",
+            "author": "Felipe Alves de Morais",
+            "version": "v.1 - 20250216"}

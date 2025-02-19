@@ -1,19 +1,14 @@
 import os
 import sqlite3
-from dotenv import load_dotenv
-
-# Load .env
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env'))
+from server.config import config
 
 # Config
-DB_URI = os.getenv("DB_URI", "components/database.sqlite")
-DEBUG = (os.getenv("DEBUG", "false") == "true")
+DB_URI = config.get("DB_URI", "../database/db.sqlite")
+DEBUG = config.get("DEBUG", "false")
 
+# Conn
 def connect():
-    """
-    Função de conexão ao banco de dados SQLite.
-    Retorna o objeto de conexão ou None em caso de erro.
-    """
+    
     try:
         conn = sqlite3.connect(DB_URI)
         return conn
@@ -22,15 +17,12 @@ def connect():
             print(f"[{__name__}] Erro ao conectar ao banco: {e}")
         return None
 
+# INSERT INTO
 def add(table_name, data):
-    """
-    Insere dados em 'table_name'. 'data' pode ser um dicionário ou uma lista de dicionários.
-    Retorna True em caso de sucesso, False em caso de falha.
-    """
+    
     if not table_name or not data:
         return False
 
-    # Data to List
     if not isinstance(data, list):
         data = [data]
 
@@ -61,11 +53,9 @@ def add(table_name, data):
 
     return True
 
+# DROP
 def drop(table_name):
-    """
-    Exclui (DROP) a tabela informada.
-    Retorna True em caso de sucesso, False em caso de falha.
-    """
+
     if not table_name:
         return False
 
@@ -86,12 +76,9 @@ def drop(table_name):
 
     return True
 
+# SELECT
 def find(table_name, query=None):
-    """
-    Busca registros em 'table_name'.
-    'query' é um dicionário cujas chaves são colunas e valores são condições de igualdade.
-    Retorna uma lista de tuplas (cada tupla é uma linha) ou None em caso de erro.
-    """
+
     if not table_name:
         return None
 

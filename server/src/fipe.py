@@ -3,19 +3,16 @@ from datetime import datetime
 import asyncio
 import httpx
 from fastapi import APIRouter, Query
-from dotenv import load_dotenv
 from src.db import find, add
-
-# Carregar variáveis do .env
-load_dotenv()
+from server.config import config
 
 # Configurações
 URL_BASE = "https://veiculos.fipe.org.br/api/veiculos/"
-DATA_TABLE = int(os.getenv("FIPE_TABLE", "318"))
-# dataTableUpdate como data fixa (no exemplo, 2025-02-01T00:00:00.000Z)
+DATA_TABLE = config.get("FIPE_TABLE", 318)
+# dataTableUpdate. obs. para data fixa (2025-02-01T00:00:00.000Z)
 DATA_TABLE_UPDATE = datetime.now()
-CACHE_ENABLED = os.getenv("CACHE_ENABLED", "false").lower() == "true"
-DEBUG = os.getenv("DEBUG", "false").lower() == "true"
+CACHE_ENABLED = config.get("CACHE_ENABLED", "false")
+DEBUG = config.get("DEBUG", "false")
 
 router = APIRouter()
 
@@ -79,7 +76,7 @@ async def get_brands(vehicle_type: int):
         if isinstance(data, list) and len(data) > 0:
             for element in data:
                 element.update(payload)
-                # Armazena a data de atualização no formato ISO 8601 (UTC)
+                # ISO 8601 (UTC)
                 element["updatedAt"] = datetime.utcnow().isoformat() + "Z"
             if CACHE_ENABLED:
                 await asyncio.to_thread(add, table_name, data)
@@ -303,39 +300,41 @@ async def get_details(vehicle_type: int, brand_code: int, model_code: int, year_
     }
     return ret
 
-# -----------------------------
+# ------------------------------
 # API Endpoints (FastAPI routes)
-# -----------------------------
+# ------------------------------
+# → Ver src.routes.py
+# ------------------------------
 
-@router.get("/v1/types")
-async def types_endpoint(vehicleType: int = 0):
-    return get_types(vehicleType)
+# @router.get("/v1/types")
+# async def types_endpoint(vehicleType: int = 0):
+#     return get_types(vehicleType)
 
-@router.get("/v1/brands/{type}")
-async def brands_endpoint(type: int):
-    return await get_brands(type)
+# @router.get("/v1/brands/{type}")
+# async def brands_endpoint(type: int):
+#     return await get_brands(type)
 
-@router.get("/v1/models/{type}/{brand}")
-async def models_endpoint(type: int, brand: int):
-    return await get_models(type, brand)
+# @router.get("/v1/models/{type}/{brand}")
+# async def models_endpoint(type: int, brand: int):
+#     return await get_models(type, brand)
 
-@router.get("/v1/years/{type}/{brand}/{model}")
-async def years_endpoint(type: int, brand: int, model: int):
-    return await get_years(type, brand, model)
+# @router.get("/v1/years/{type}/{brand}/{model}")
+# async def years_endpoint(type: int, brand: int, model: int):
+#     return await get_years(type, brand, model)
 
-@router.get("/v1/details/{type}/{brand}/{model}/{year}")
-async def details_endpoint(
-    type: int, 
-    brand: int, 
-    model: int, 
-    year: int, 
-    typeGas: int = Query(1), 
-    typeSearch: str = Query("tradicional")
-):
-    return await get_details(type, brand, model, year, typeGas, typeSearch)
+# @router.get("/v1/details/{type}/{brand}/{model}/{year}")
+# async def details_endpoint(
+#     type: int, 
+#     brand: int, 
+#     model: int, 
+#     year: int, 
+#     typeGas: int = Query(1), 
+#     typeSearch: str = Query("tradicional")
+# ):
+#     return await get_details(type, brand, model, year, typeGas, typeSearch)
 
-# Opcional: exportar funções para testes
+# Exportar funções
 __all__ = [
-    "get_types", "get_brands", "get_models", "get_years", "get_details",
-    "types_endpoint", "brands_endpoint", "models_endpoint", "years_endpoint", "details_endpoint"
+    "get_types", "get_brands", "get_models", "get_years", "get_details"
+    # "types_endpoint", "brands_endpoint", "models_endpoint", "years_endpoint", "details_endpoint"
 ]

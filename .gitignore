@@ -4,8 +4,6 @@ node_modules/
 app/.env
 server/.env
 __pycache__/
-test/.env
-config.yaml
-main.js
+server/src/test.py
 .idea
 .vscode

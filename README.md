@@ -1,7 +1,7 @@
 # FIPE-PYTHON: Web Crawler para Consulta de Veículos na [Tabela FIPE](https://veiculos.fipe.org.br/)
 ## Autor: [Felipe Alves de Morais](https://github.com/FelipeTr00)
 
-Este é o back-end do projeto **FIPE-PYTHON**, implementado em Python com FastAPI. O servidor busca dados do site da [**FIPE - fipe.org.br**](https://veiculos.fipe.org.br/), utiliza cache (opcional) armazenado em um **banco de dados SQLite** e expõe endpoints para consulta de **tipos**, **marcas**, **modelos**, **anos** e **detalhes** de **carros**, **motos** e **caminhões**.
+O projeto **FIPE-PYTHON**, possui back-end implementado em Python com FastAPI. O servidor busca dados do site da [**FIPE - fipe.org.br**](https://veiculos.fipe.org.br/), utiliza cache (opcional) armazenado em um **banco de dados SQLite** e expõe endpoints para consulta de **tipos**, **marcas**, **modelos**, **anos** e **detalhes** de **carros**, **motos** e **caminhões**.
 
 ---
 
@@ -74,7 +74,7 @@ O projeto **FIPE-Python** busca oferecer uma solução automatizada, confiável 
 
 | **Método** | **Endpoint** | **Descrição** |
 |------------|----------------------------------|------------------------------------------------------------|
-| `GET` | `/v1/types` | Retorna os tipos de veículos disponíveis. |
+| `GET` | `/v1/{types}` | Retorna os tipos de veículos disponíveis. |
 | `GET` | `/v1/brands/{type}` | Retorna as marcas disponíveis para um tipo de veículo. |
 | `GET` | `/v1/models/{type}/{brand}` | Retorna os modelos de uma marca específica. |
 | `GET` | `/v1/years/{type}/{brand}/{model}` | Retorna os anos disponíveis para um modelo específico. |

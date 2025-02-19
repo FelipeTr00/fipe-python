@@ -2,12 +2,12 @@ import asyncio
 import httpx
 import sqlite3
 import os
-from dotenv import load_dotenv
+from server.config import config
 
-# Carregar variáveis de ambiente
-load_dotenv()
-BASE_URL = "http://127.0.0.1:8000/v1"  # Ajuste conforme necessário
-DB_URI = os.getenv("DB_URI", "./server/database/db.sqlite")
+# Variáveis
+VERSION = config.get("VERSION", "api")
+BASE_URL = "http://127.0.0.1:8000/{VERSION}"  # Ajuste conforme necessário
+DB_URI = config.get("DB_URI", "./server/database/db.sqlite")
 
 # Função para obter todas as marcas do banco de dados (Value e codigoTipoVeiculo)
 def get_brands():
