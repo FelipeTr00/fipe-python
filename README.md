@@ -68,9 +68,79 @@ O projeto **FIPE-Python** busca oferecer uma solução automatizada, confiável 
 ### Port
     http://localhost:8000/v1
 
+### DER - Banco de Dados
+
+
+![DER](server/database/der.jpg)
+#### Obs.: Foram mantidos nomes dos campos conforme FIPE.
+---
+
+## Tabelas
+
+O banco de dados contém as seguintes tabelas:
+
+### **Tabela `brands`** (Marcas dos Veículos)
+| Coluna                 | Tipo    | Descrição                         |
+|------------------------|--------|-----------------------------------|
+| Label                 | TEXT   | Nome da marca                    |
+| Value                 | TEXT   | Código da marca                  |
+| codigoTabelaReferencia| INTEGER| Código da tabela FIPE            |
+| codigoTipoVeiculo     | INTEGER| Tipo do veículo (1 = Carro, etc) |
+| updatedAt             | TEXT   | Data da última atualização       |
 
 ---
-### Endpoints
+
+### **Tabela `models`** (Modelos de Veículos)
+| Coluna                 | Tipo    | Descrição                         |
+|------------------------|--------|-----------------------------------|
+| value                 | INTEGER| Código do modelo                  |
+| label                 | TEXT   | Nome do modelo                    |
+| codigoTabelaReferencia| INTEGER| Código da tabela FIPE            |
+| codigoTipoVeiculo     | INTEGER| Tipo do veículo                  |
+| codigoMarca           | INTEGER| Código da marca correspondente   |
+| updatedAt             | TEXT   | Data da última atualização       |
+
+---
+
+### **Tabela `years`** (Anos dos Modelos)
+| Coluna                 | Tipo    | Descrição                         |
+|------------------------|--------|-----------------------------------|
+| value                 | TEXT   | Ano do modelo                     |
+| label                 | TEXT   | Descrição do ano                  |
+| codigoTabelaReferencia| INTEGER| Código da tabela FIPE            |
+| codigoTipoVeiculo     | INTEGER| Tipo do veículo                  |
+| codigoMarca           | INTEGER| Código da marca                  |
+| codigoModelo          | INTEGER| Código do modelo                  |
+| updatedAt             | TEXT   | Data da última atualização       |
+
+---
+
+### **Tabela `details`** (Detalhes dos Veículos)
+| Coluna                 | Tipo    | Descrição                         |
+|------------------------|--------|-----------------------------------|
+| year                  | INTEGER| Ano do veículo                    |
+| valor                 | TEXT   | Valor FIPE do veículo             |
+| marca                 | TEXT   | Nome da marca                     |
+| modelo                | TEXT   | Nome do modelo                    |
+| ano_modelo            | INTEGER| Ano do modelo                     |
+| combustivel           | TEXT   | Tipo de combustível               |
+| codigo_fipe           | TEXT   | Código FIPE do veículo            |
+| mes_referencia        | TEXT   | Mês de referência FIPE            |
+| autenticacao          | TEXT   | Código de autenticação            |
+| tipo_veiculo          | INTEGER| Tipo do veículo                   |
+| sigla_combustivel     | TEXT   | Sigla do combustível (G, F, etc.) |
+| data_consulta         | TEXT   | Data da consulta                  |
+| updatedAt             | TEXT   | Data da última atualização        |
+| codigoTabelaReferencia| INTEGER| Código da tabela FIPE             |
+| codigoTipoVeiculo     | INTEGER| Tipo do veículo                   |
+| codigoMarca           | INTEGER| Código da marca                   |
+| codigoModelo          | INTEGER| Código do modelo                  |
+| codigoTipoCombustivel | INTEGER| Código do tipo de combustível     |
+| tipoConsulta          | TEXT   | Tipo de consulta FIPE             |
+
+---
+
+### Endpoints API
 
 | **Método** | **Endpoint** | **Descrição** |
 |------------|----------------------------------|------------------------------------------------------------|
