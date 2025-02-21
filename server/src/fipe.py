@@ -3,8 +3,12 @@ from datetime import datetime
 import asyncio
 import httpx
 from fastapi import APIRouter, Query
-from src.db import find, add
-from server.config import config
+from server.src.db import find, add
+import json
+
+with open("server/config.json", "r") as file:
+    config = json.load(file)
+
 
 # Configurações
 URL_BASE = "https://veiculos.fipe.org.br/api/veiculos/"

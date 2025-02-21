@@ -7,3 +7,4 @@ __pycache__/
 server/src/test.py
 .idea
 .vscode
+test/

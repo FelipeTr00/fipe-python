@@ -53,40 +53,30 @@ Este é o back-end do projeto **FIPE-PYTHON**, implementado em Python com FastAP
 
 ## Configuração
 
-**Arquivo server/.env**
-
-    DB_URI=database/db.sqlite
-    DEBUG=true
-    CACHE_ENABLED=true
-    FIPE_TABLE=318
-    SERVER_PORT=8000
-- DB_URI: Caminho para o arquivo SQLite (relativo à raiz do servidor).
-- DEBUG: Ativa mensagens de depuração (true/false).
-- CACHE_ENABLED: Habilita (true) ou desabilita (false) o cache.
-- FIPE_TABLE: Código de referência da tabela FIPE (ex: 318 para fevereiro/2025).
+**Arquivo server/config.json**
+```
+{
+    "VERSION": "v1",
+    "DB_URI": "server/database/db.sqlite",
+    "DEBUG": true,
+    "CACHE_ENABLED": true,
+    "FIPE_TABLE": 318,
+    "SERVER_PORT": 8000
+}
+```
+- VERSION: Versão da API (v1);
+- DB_URI: Caminho para o arquivo SQLite (relativo à raiz do servidor);
+- DEBUG: Ativa mensagens de depuração (true/false);
+- CACHE_ENABLED: Habilita (true) ou desabilita (false) o cache;
+- FIPE_TABLE: Código de referência da tabela FIPE (ex: 318 para 'fevereiro de 2025');
 - SERVER_PORT: Porta em que o servidor será executado.
 
 ---
 
-## Servidor 
-
-### Estrutura do Servidor
-    server/
-    ├── database/                # Arquivo SQLite (db.sqlite)
-    ├── migrations/              # Scripts de migração (schema.sql, etc.)
-    ├── crawler/                 # Scripts de mineração dos dados (models.py, etc.)
-    ├── src/
-    │   ├── __init__.py          # Inicializador do pacote
-    │   ├── main.py              # Ponto de entrada da aplicação FastAPI
-    │   ├── routes.py            # Definição das rotas/endpoint
-    │   ├── fipe.py              # Lógica de integração com a API FIPE e cache
-    │   └── db.py                # Módulo de conexão e operações com o banco SQLite
-    ├── .env                     # Variáveis de ambiente
-    ├── requirements.txt         # Dependências do Python
-    └── SERVER-README.md         # Este arquivo
+## Kick Start
 
 ### Run
-    py -m src.main
+    py -m server.main
 
 ---
 ### End Points
@@ -254,7 +244,4 @@ Este é o back-end do projeto **FIPE-PYTHON**, implementado em Python com FastAP
     } 
 
 
-
-
-## Notas e Considerações
-. . .
+---

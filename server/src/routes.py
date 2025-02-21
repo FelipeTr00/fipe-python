@@ -1,6 +1,10 @@
 from fastapi import APIRouter
 from . import fipe as fipe_controller
-from server.config import config
+import json
+
+with open("server/config.json", "r") as file:
+    config = json.load(file)
+
 
 VERSION = config.get("VERSION", "api")
 

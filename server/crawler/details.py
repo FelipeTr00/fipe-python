@@ -2,7 +2,10 @@ import asyncio
 import httpx
 import sqlite3
 import os
-from server.config import config
+import json
+
+with open("server/config.json", "r") as file:
+    config = json.load(file)
 
 VERSION = config.get("VERSION", "v1")
 BASE_URL = f"http://127.0.0.1:8000/{VERSION}"

@@ -1,6 +1,9 @@
 import os
 import sqlite3
-from server.config import config
+import json
+
+with open("server/config.json", "r") as file:
+    config = json.load(file)
 
 # Config
 DB_URI = config.get("DB_URI", "../database/db.sqlite")

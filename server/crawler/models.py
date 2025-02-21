@@ -2,7 +2,10 @@ import asyncio
 import httpx
 import sqlite3
 import os
-from server.config import config
+import json
+
+with open("server/config.json", "r") as file:
+    config = json.load(file)
 
 # Variáveis
 VERSION = config.get("VERSION", "api")

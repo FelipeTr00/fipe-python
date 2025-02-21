@@ -1,0 +1,8 @@
+{
+    "VERSION": "v1",
+    "DB_URI": "server/database/db.sqlite",
+    "DEBUG": true,
+    "CACHE_ENABLED": true,
+    "FIPE_TABLE": 318,
+    "SERVER_PORT": 8000
+}
