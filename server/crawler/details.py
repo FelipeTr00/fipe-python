@@ -102,9 +102,9 @@ def save_details(details):
         conn.commit()
         conn.close()
 
-async def fetch_details(client, year, brand_id, model_id, type_id):
+async def fetch_details(client, year_int, brand_id, model_id, type_id):
     async with semaphore:
-        url = f"{BASE_URL}/details/{type_id}/{brand_id}/{model_id}/{year}"
+        url = f"{BASE_URL}/details/{type_id}/{brand_id}/{model_id}/{year_int}"
         try:
             response = await client.get(url, timeout=10)
             data = response.json()
@@ -114,31 +114,31 @@ async def fetch_details(client, year, brand_id, model_id, type_id):
                 save_details(data["data"])
                 print(
                     f"✔ Detalhes salvos para: "
-                    f"Year={year}, Modelo={model_id}, Marca={brand_id}, Tipo={type_id}"
+                    f"Year={year_int}, Modelo={model_id}, Marca={brand_id}, Tipo={type_id}"
                 )
                 await asyncio.sleep(0.1)
             else:
                 print(
                     f"[Nenhum 'data' encontrado em detalhes para "
-                    f"Year={year}, Modelo={model_id}, Marca={brand_id}, Tipo={type_id}]"
+                    f"Year={year_int}, Modelo={model_id}, Marca={brand_id}, Tipo={type_id}]"
                 )
         except httpx.RequestError as e:
             print(
                 f"[Erro de requisição ao buscar detalhes para "
-                f"Year={year}, Modelo={model_id}, Marca={brand_id}, Tipo={type_id}]: {e}"
+                f"Year={year_int}, Modelo={model_id}, Marca={brand_id}, Tipo={type_id}]: {e}"
             )
         except Exception as e:
             print(
                 f"[Erro ao processar detalhes para "
-                f"Year={year}, Modelo={model_id}, Marca={brand_id}, Tipo={type_id}]: {e}"
+                f"Year={year_int}, Modelo={model_id}, Marca={brand_id}, Tipo={type_id}]: {e}"
             )
 
 async def main():
     async with httpx.AsyncClient() as client:
         years_records = get_years()
         tasks = []
-        for (year, brand_id, model_id, type_id) in years_records:
-            tasks.append(fetch_details(client, year, brand_id, model_id, type_id))
+        for (year_int, brand_id, model_id, type_id) in years_records:
+            tasks.append(fetch_details(client, year_int, brand_id, model_id, type_id))
         await asyncio.gather(*tasks)
 
 if __name__ == "__main__":

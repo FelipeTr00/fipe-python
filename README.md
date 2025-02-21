@@ -68,6 +68,7 @@ O projeto **FIPE-Python** busca oferecer uma solução automatizada, confiável 
 
 ### Port
     http://localhost:8000/v1
+    // Ou swagger → http://localhost:8000/v1 
 
 ### DER - Banco de Dados
 
