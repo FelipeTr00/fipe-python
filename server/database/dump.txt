@@ -1,4 +1,0 @@
-sqlite3 db.sqlite .dump > dump.sql
-
-Compress-Archive -Path dump.sql -DestinationPath dump20250221.zip -CompressionLevel Optimal
-
