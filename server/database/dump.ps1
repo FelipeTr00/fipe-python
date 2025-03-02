@@ -1,7 +1,7 @@
 # Definir nomes dos arquivos
 $databaseFile = "db.sqlite"
 $dumpFile = "dump.sql"
-$zipFile = "dump20250221.zip"
+$zipFile = "dump$(Get-Date -Format 'yyyyMMdd').zip"
 
 # Verificar se o SQLite está disponível
 if (-Not (Get-Command "sqlite3" -ErrorAction SilentlyContinue)) {
