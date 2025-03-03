@@ -69,3 +69,22 @@ CREATE TABLE IF NOT EXISTS details (
     tipoConsulta TEXT,
     updatedAt TEXT
 );
+
+-- PREÇO FIPE
+CREATE TABLE IF NOT EXISTS preco_fipe
+(
+    CodigoFipe    TEXT PRIMARY KEY,
+    Valor         REAL,
+    MesReferencia TEXT
+);
+
+CREATE TRIGGER IF NOT EXISTS atualizar_preco_fipe
+AFTER INSERT OR UPDATE OR DELETE ON details
+BEGIN
+    INSERT OR REPLACE INTO preco_fipe (CodigoFipe, Valor, MesReferencia)
+SELECT
+    d.CodigoFipe,
+    CAST(REPLACE(REPLACE(REPLACE(d.Valor, 'R$ ', ''), '.', ''), ',', '.') AS REAL),
+    d.MesReferencia
+FROM details d;
+END;
