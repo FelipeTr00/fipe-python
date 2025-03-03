@@ -19,6 +19,12 @@ if (-Not (Test-Path $dumpFile)) {
     exit 1
 }
 
+# Verificar se o arquivo ZIP já existe e remover se necessário
+if (Test-Path $zipFile) {
+    Write-Output "Removendo ZIP existente..."
+    Remove-Item $zipFile -Force
+}
+
 # Compactar o dump para ZIP
 Write-Output "Compactando dump para ZIP..."
 Compress-Archive -Path $dumpFile -DestinationPath $zipFile -CompressionLevel Optimal
@@ -34,5 +40,3 @@ Write-Output "Removendo arquivo original..."
 Remove-Item $dumpFile
 
 Write-Output "Processo concluído! Arquivo ZIP criado: $zipFile"
-
-
